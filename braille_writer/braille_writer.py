@@ -1,4 +1,4 @@
-import braille
+import braille, whisper
 
 def speech_to_braille(audio_path):
     """
@@ -75,7 +75,19 @@ def text_to_braille(file_path: str):
     write_to_file(braille_text, "../output/output.txt")
     return braille_text
 
+def speech_to_text(speech_file, exported_file):
+    model = whisper.load_model("base")
+    result = model.transcribe(speech_file)
+    transcribed_text = result['text']
+    print(f'transcribed_text {transcribed_text}')
+    with open(exported_file, 'w') as file:
+        file.write(transcribed_text)
+
+    print(f'Transcription complete. Text saved to {exported_file}')
 
 if __name__ == '__main__':
     file_path = "../test.txt"
     text_to_braille(file_path)
+    input_audio = "../test_speech.wav"
+    output_text_file = "transcription.txt"
+    speech_to_text(input_audio, output_text_file)
