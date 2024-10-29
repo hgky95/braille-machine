@@ -14,10 +14,10 @@ python -m venv .venv
 
 - On Mac:
 ```
-On Unix or MacOS: source openai-env/bin/activate
+On Unix or MacOS: source .venv/bin/activate
 ```
 
 3. Install library dependencies:
 ```
-pip install -r requirement.txt
+pip install -r requirementstxt
 ```
