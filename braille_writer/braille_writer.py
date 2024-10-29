@@ -1,4 +1,20 @@
 import braille, whisper
+from gtts import gTTS
+import os
+
+def text_to_speech(english_text):
+    # Text to be converted to speech
+    text = english_text
+    
+    # Language in which you want to convert
+    language = 'en'
+    
+    # Creating the gTTS object
+    tts = gTTS(text=text, lang=language, slow=False)
+    
+    # Saving the converted audio to a file
+    tts.save("../output/output.mp3")
+    return tts;
 
 def speech_to_braille(audio_path):
     """
