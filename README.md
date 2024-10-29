@@ -19,5 +19,5 @@ On Unix or MacOS: source .venv/bin/activate
 
 3. Install library dependencies:
 ```
-pip install -r requirementstxt
+pip install -r requirements.txt
 ```
