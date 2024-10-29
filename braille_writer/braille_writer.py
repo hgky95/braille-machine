@@ -1,4 +1,5 @@
-import braille, whisper
+import braille
+import speech_recognition as sr
 
 def speech_to_braille(audio_path):
     """
@@ -21,8 +22,24 @@ def speech_to_text(audio_path):
         :return
             str: a .txt file with English text
     """
-    #TODO: you need to handle here to convert speech to text (output should be the text file)
+    recognizer = sr.Recognizer()
     text_file = "speech.txt"
+    # Handle the audio recording and convert it into text.
+    with sr.AudioFile(audio_path) as source:
+        audio = recognizer.record(source)
+        try:
+            text_output = recognizer.recognize_google(audio)
+            with open(text_file, "w") as file:
+                # Save the transcribed text to a .txt file
+                file.write(text_output)
+            print("Transcription successful. Check speech.txt for the text.")
+        # Error Handling - 1
+        except sr.UnknownValueError:
+            print("Not able to identify audio.")
+        # Error Handling - 2
+        except sr.RequestError:
+            print("Speech recognition service error")
+
     return text_file
 
 
@@ -75,19 +92,9 @@ def text_to_braille(file_path: str):
     write_to_file(braille_text, "../output/output.txt")
     return braille_text
 
-def speech_to_text(speech_file, exported_file):
-    model = whisper.load_model("base")
-    result = model.transcribe(speech_file)
-    transcribed_text = result['text']
-    print(f'transcribed_text {transcribed_text}')
-    with open(exported_file, 'w') as file:
-        file.write(transcribed_text)
-
-    print(f'Transcription complete. Text saved to {exported_file}')
 
 if __name__ == '__main__':
     file_path = "../test.txt"
     text_to_braille(file_path)
     input_audio = "../test_speech.wav"
-    output_text_file = "transcription.txt"
-    speech_to_text(input_audio, output_text_file)
+    speech_to_text(input_audio)
