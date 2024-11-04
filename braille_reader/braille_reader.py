@@ -27,6 +27,7 @@ def image_to_braille_text_conversion(image_path):
     # Apply thresholding
     _, thresh_image = cv2.threshold(gray_image, 150, 255, cv2.THRESH_BINARY_INV)
 
+    # Provide the path of pytesseract.pytesseract.tesseract_cmd from local
     pytesseract.pytesseract.tesseract_cmd = r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
     custom_config = r'--oem 3 --psm 6'
     text = pytesseract.image_to_string(thresh_image, config=custom_config)
@@ -43,13 +44,13 @@ def image_to_braille_text_conversion(image_path):
     print(f"Content saved to {file_name}")
     return text
 
-// This one is the final method
+## This one is the final method
 def image_to_speech(image_path):
     english_text = image_to_braille_text_conversion(image_path)
     # english_text = braille_to_text(braille_text)
     return text_to_speech(english_text)
 
-// Testing:
+## Testing:
 image_path = "/home/scanned_image.jpeg"
 image_to_speech(image_path)
 
