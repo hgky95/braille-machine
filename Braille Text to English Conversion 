@@ -1,0 +1,81 @@
+# braille_reader.py
+
+# Sample Braille to English dictionary for demonstration (use the actual mappings you need)
+braille_to_english = {
+    "⠁": "a",
+    "⠃": "b",
+    "⠉": "c",
+    "⠙": "d",
+    "⠑": "e",
+    "⠋": "f",
+    "⠛": "g",
+    "⠓": "h",
+    "⠊": "i",
+    "⠚": "j",
+    "⠅": "k",
+    "⠇": "l",
+    "⠍": "m",
+    "⠝": "n",
+    "⠕": "o",
+    "⠏": "p",
+    "⠟": "q",
+    "⠗": "r",
+    "⠎": "s",
+    "⠞": "t",
+    "⠥": "u",
+    "⠧": "v",
+    "⠺": "w",
+    "⠭": "x",
+    "⠽": "y",
+    "⠵": "z",
+    " ": " "  # Adding space for separation
+}
+
+def braille_to_text(braille_content):
+    """
+    Convert Braille text to English text.
+    :param braille_content: str, text in Braille format
+    :return: str, converted English text
+    """
+    english_text = ''.join(braille_to_english.get(char, '?') for char in braille_content)
+    return english_text
+
+def read_braille_file(file_path):
+    """
+    Read a text file containing Braille and return its content.
+    :param file_path: str, path to the Braille text file
+    :return: str, Braille content from the file
+    """
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            content = file.read()
+            return content
+    except FileNotFoundError:
+        print(f"Error: File not found at {file_path}")
+        return None
+    except IOError:
+        print(f"Error: Error reading file at {file_path}")
+        return None
+
+def write_text_to_file(content, filename="output/english_output.txt"):
+    """
+    Write the English text content to a file.
+    :param content: str, English text content
+    :param filename: str, output file name
+    """
+    try:
+        with open(filename, 'w', encoding='utf-8') as file:
+            file.write(content)
+        print(f"Content successfully written to {filename}")
+    except IOError:
+        print(f"An error occurred while writing to {filename}")
+
+if __name__ == '__main__':
+    braille_file_path = "../braille_input.txt"  # Replace with the actual path to your input Braille file
+    braille_content = read_braille_file(braille_file_path)
+
+    if braille_content:
+        english_text = braille_to_text(braille_content)
+        print("Converted English Text:")
+        print(english_text)
+        write_text_to_file(english_text)
