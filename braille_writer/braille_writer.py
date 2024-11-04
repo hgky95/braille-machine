@@ -1,6 +1,9 @@
 import braille
 import speech_recognition as sr
 
+BRAILLE_TEXT_OUTPUT_PATH = "../output/english_to_braille_text.txt"
+ENGLISH_TEXT_OUTPUT_PATH = "../output/speech_to_english.txt"
+
 def speech_to_braille(audio_path):
     """
         Convert the audio to braille format
@@ -23,7 +26,7 @@ def speech_to_text(audio_path):
             str: a .txt file with English text
     """
     recognizer = sr.Recognizer()
-    text_file = "speech.txt"
+    text_file = ENGLISH_TEXT_OUTPUT_PATH
     # Handle the audio recording and convert it into text.
     with sr.AudioFile(audio_path) as source:
         audio = recognizer.record(source)
@@ -63,7 +66,7 @@ def read_text_file(file_path):
         return None
 
 
-def write_to_file(content, filename="output/output.txt"):
+def write_to_file(content, filename = BRAILLE_TEXT_OUTPUT_PATH):
     """
         Write content to file
         :param
@@ -88,13 +91,11 @@ def text_to_braille(file_path: str):
     """
     content = read_text_file(file_path)
     braille_text = braille.textToBraille(content)
-    print(braille_text)
-    write_to_file(braille_text, "../output/output.txt")
+    write_to_file(braille_text, BRAILLE_TEXT_OUTPUT_PATH)
     return braille_text
 
 
 if __name__ == '__main__':
-    file_path = "../test.txt"
-    text_to_braille(file_path)
     input_audio = "../test_speech.wav"
-    speech_to_text(input_audio)
+    english_text_path = speech_to_text(input_audio)
+    text_to_braille(english_text_path)
