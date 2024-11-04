@@ -36,7 +36,7 @@ def image_to_braille_text_conversion(image_path):
     
     content = text
     # Specify the file name
-    file_name = r'output/Braille_output.txt'
+    file_name = r'output/braille_reader_output.txt'
     
     with open(file_name, 'w') as file:
         file.write(content)
