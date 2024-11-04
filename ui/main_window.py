@@ -2,52 +2,22 @@ import customtkinter
 from tkinter import filedialog, messagebox
 
 
-class TextToSpeech:
+class BrailleToSpeech:
     def __init__(self, root):
         self.root = root
 
     def execute(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
-        if file_path:
-            messagebox.showinfo("Info", "Text to Speech feature executed successfully!")
-        else:
-            messagebox.showerror("Error", "No file selected")
+        # Placeholder for Braille to Speech functionality
+        messagebox.showinfo("Info", "Braille to Speech feature coming soon!")
 
 
-class BrailleToText:
+class SpeechToBraille:
     def __init__(self, root):
         self.root = root
 
     def execute(self):
-        # Placeholder for Braille to Text functionality
-        messagebox.showinfo("Info", "Braille to Text feature coming soon!")
-
-
-class ImageToBraille:
-    def __init__(self, root):
-        self.root = root
-
-    def execute(self):
-        # Placeholder for Image to Braille functionality
-        messagebox.showinfo("Info", "Image to Braille feature coming soon!")
-
-
-class SpeechToText:
-    def __init__(self, root):
-        self.root = root
-
-    def execute(self):
-        # Placeholder for Speech to Text functionality
-        messagebox.showinfo("Info", "Speech to Text feature coming soon!")
-
-
-class TextToBraille:
-    def __init__(self, root):
-        self.root = root
-
-    def execute(self):
-        # Placeholder for Text to Braille functionality
-        messagebox.showinfo("Info", "Text to Braille feature coming soon!")
+        # Placeholder for Speech to Braille functionality
+        messagebox.showinfo("Info", "Speech to Braille feature coming soon!")
 
 
 class BrailleReaderUI:
@@ -83,91 +53,59 @@ class BrailleReaderUI:
         )
         self.title_label.pack(pady=20)
 
-        # Frame for "To Braille" Functions
-        self.to_braille_frame = customtkinter.CTkFrame(master=self.left_frame)
-        self.to_braille_frame.pack(pady=10, padx=10, fill="x")
+        # Frame for "Braille to Speech" Functions
+        self.braille_to_speech_frame = customtkinter.CTkFrame(master=self.left_frame)
+        self.braille_to_speech_frame.pack(pady=10, padx=10, fill="x")
 
-        # Title for "To Braille" Functions
-        self.to_braille_title = customtkinter.CTkLabel(
-            master=self.to_braille_frame,
-            text="To Braille Functions",
+        # Title for "Braille to Speech" Functions
+        self.braille_to_speech_title = customtkinter.CTkLabel(
+            master=self.braille_to_speech_frame,
+            text="Braille to Speech",
             font=("Helvetica", 16, "bold"),
         )
-        self.to_braille_title.pack(pady=5)
-        self.to_braille_title.configure(text_color="orange")
+        self.braille_to_speech_title.pack(pady=5)
+        self.braille_to_speech_title.configure(text_color="orange")
 
-        # Text to Braille Button
-        self.text_to_braille = TextToBraille(root)
-        self.text_to_braille_button = customtkinter.CTkButton(
-            master=self.to_braille_frame,
-            text="Text to Braille",
+        # Braille to Speech Button
+        self.braille_to_speech = BrailleToSpeech(root)
+        self.braille_to_speech_button = customtkinter.CTkButton(
+            master=self.braille_to_speech_frame,
+            text="Braille to Speech",
             command=lambda: [
-                self.update_right_frame("text to braille"),
-                self.dim_frames(self.to_braille_frame, self.text_to_braille_button),
+                self.update_right_frame("Braille Text"),
+                self.dim_frames(
+                    self.braille_to_speech_frame, self.braille_to_speech_button
+                ),
             ],
         )
-        self.text_to_braille_button.pack(pady=5, padx=10)
+        self.braille_to_speech_button.pack(pady=5, padx=10)
 
-        # Image to Braille Button
-        self.image_to_braille = ImageToBraille(root)
-        self.image_to_braille_button = customtkinter.CTkButton(
-            master=self.to_braille_frame,
-            text="Image to Braille",
-            command=lambda: [
-                self.update_right_frame("image to braille"),
-                self.dim_frames(self.to_braille_frame, self.image_to_braille_button),
-            ],
-        )
-        self.image_to_braille_button.pack(pady=5, padx=10)
+        # Frame for "Speech to Braille" Functions
+        self.speech_to_braille_frame = customtkinter.CTkFrame(master=self.left_frame)
+        self.speech_to_braille_frame.pack(pady=10, padx=10, fill="x")
 
-        # Frame for "To Text" Functions
-        self.to_text_frame = customtkinter.CTkFrame(master=self.left_frame)
-        self.to_text_frame.pack(pady=10, padx=10, fill="x")
-
-        # Title for "To Text" Functions
-        self.to_text_title = customtkinter.CTkLabel(
-            master=self.to_text_frame,
-            text="To Text Functions",
+        # Title for "Speech to Braille" Functions
+        self.speech_to_braille_title = customtkinter.CTkLabel(
+            master=self.speech_to_braille_frame,
+            text="Speech To Braille",
             font=("Helvetica", 16, "bold"),
         )
-        self.to_text_title.pack(pady=5)
-        self.to_text_title.configure(text_color="blue")
+        self.speech_to_braille_title.pack(pady=5)
+        self.speech_to_braille_title.configure(text_color="blue")
 
-        # Braille to Text Button
-        self.braille_to_text = BrailleToText(root)
-        self.braille_to_text_button = customtkinter.CTkButton(
-            master=self.to_text_frame,
-            text="Braille to Text",
+        # Speech to Braille Button
+        self.speech_to_braille = SpeechToBraille(root)
+        self.speech_to_braille_button = customtkinter.CTkButton(
+            master=self.speech_to_braille_frame,
+            text="Speech to Braille",
             command=lambda: [
-                self.update_right_frame("braille to text"),
-                self.dim_frames(self.to_text_frame, self.braille_to_text_button),
+                self.update_right_frame("Speech File"),
+                self.dim_frames(
+                    self.speech_to_braille_frame, self.speech_to_braille_button
+                ),
             ],
         )
-        self.braille_to_text_button.pack(pady=5, padx=10)
-
-        # Speech to Text Button
-        self.speech_to_text = SpeechToText(root)
-        self.speech_to_text_button = customtkinter.CTkButton(
-            master=self.to_text_frame,
-            text="Speech to Text",
-            command=lambda: [
-                self.update_right_frame("speech to text"),
-                self.dim_frames(self.to_text_frame, self.speech_to_text_button),
-            ],
-        )
-        self.speech_to_text_button.pack(pady=5, padx=10)
-
-        # Text to Speech Button
-        self.text_to_speech = TextToSpeech(root)
-        self.text_to_speech_button = customtkinter.CTkButton(
-            master=self.to_text_frame,
-            text="Text to Speech",
-            command=lambda: [
-                self.update_right_frame("text to speech"),
-                self.dim_frames(self.to_text_frame, self.text_to_speech_button),
-            ],
-        )
-        self.text_to_speech_button.pack(pady=5, padx=10)
+        self.speech_to_braille_button.pack(pady=5, padx=10)
 
     def update_right_frame(self, function):
         # Clear the right frame
@@ -175,7 +113,7 @@ class BrailleReaderUI:
             widget.destroy()
 
         # Update title based on selected function
-        title_text = f"Please upload your {function.split(' ')[0]}"
+        title_text = f"Please upload your {function}"
         right_title = customtkinter.CTkLabel(
             master=self.right_frame, text=title_text, font=("Helvetica", 18, "bold")
         )
@@ -187,7 +125,7 @@ class BrailleReaderUI:
             text="Upload",
             command=lambda: self.handle_upload(),
         )
-        upload_button.pack(pady=10, anchor="center")  # Center horizontally
+        upload_button.pack(pady=5, anchor="center")  # Center horizontally
 
         # Convert Button
         convert_button = customtkinter.CTkButton(
@@ -195,7 +133,7 @@ class BrailleReaderUI:
             text="Convert",
             command=lambda: self.handle_conversion(function),
         )
-        convert_button.pack(pady=10, anchor="center")  # Center horizontally
+        convert_button.pack(pady=5, anchor="center")  # Center horizontally
 
     def handle_conversion(self, function_name):
         # Placeholder for handling the conversion functionality
@@ -209,17 +147,18 @@ class BrailleReaderUI:
             messagebox.showerror("Error", "No file selected")
 
     def dim_frames(self, active_frame, active_button):
-        frames = [self.to_braille_frame, self.to_text_frame]
+        frames = [self.braille_to_speech_frame, self.speech_to_braille_frame]
         for frame in frames:
+            title_color = "transparent"  # Initialize title_color
             if frame == active_frame:
                 frame.configure(fg_color="white")  # Normal frame
                 for child in frame.winfo_children():
                     if isinstance(child, customtkinter.CTkLabel):
                         # Preserve the original color for the active frame's label
-                        if "To Braille" in child.cget("text"):
+                        if "Braille to Speech" in child.cget("text"):
                             title_color = "orange"
                             child.configure(text_color=title_color)
-                        elif "To Text" in child.cget("text"):
+                        elif "Speech To Braille" in child.cget("text"):
                             title_color = "blue"
                             child.configure(text_color=title_color)
                     if isinstance(child, customtkinter.CTkButton):
