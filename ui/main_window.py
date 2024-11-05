@@ -1,5 +1,10 @@
 import customtkinter
 from tkinter import filedialog, messagebox
+from tkinter import Text
+
+from braille_writer.braille_writer import (
+    speech_to_braille,
+)  # Import Text widget for displaying content
 
 
 class BrailleToSpeech:
@@ -15,27 +20,55 @@ class SpeechToBraille:
     def __init__(self, root):
         self.root = root
 
-    def execute(self):
-        # Placeholder for Speech to Braille functionality
-        messagebox.showinfo("Info", "Speech to Braille feature coming soon!")
+    def handle_conversion(self, file_path, text_display):
+        # Call the speech_to_braille function and update the text display
+        output_braille = "output/english_to_braille_text.txt"
+        output_english = "output/speech_to_english.txt"
+
+        try:
+            # Read braille text
+            with open(output_braille, "r", encoding="utf-8") as file:
+                braille_text = file.read()
+
+            # Read English text
+            with open(output_english, "r", encoding="utf-8") as file:
+                english_text = file.read()
+
+            # Update the text display widget
+            text_display.config(state="normal")
+            text_display.delete("1.0", "end")
+            text_display.insert("1.0", f"Braille Text:\n{braille_text}\n\n")
+            text_display.insert("end", f"English Text:\n{english_text}")
+            text_display.config(state="disabled")  # Make text widget read-only
+
+        except FileNotFoundError:
+            messagebox.showerror(
+                "Error", "One or more output files could not be found."
+            )
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred: {str(e)}")
 
 
 class BrailleReaderUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Braille Reader and Writer Interface")
-        self.root.geometry("900x500")
+        self.root.geometry("1200x700")
         customtkinter.set_appearance_mode("light")  # Modes: "System", "Dark", "Light"
         customtkinter.set_default_color_theme(
             "blue"
         )  # Themes: "blue", "green", "dark-blue"
+
+        # Initialize file_content attribute
+        self.file_content = None
+        self.file_path = None
 
         # Main Frame
         self.main_frame = customtkinter.CTkFrame(master=root)
         self.main_frame.pack(fill="both", expand=True, padx=10, pady=10)
 
         # Left Frame for Buttons
-        self.left_frame = customtkinter.CTkFrame(master=self.main_frame, width=300)
+        self.left_frame = customtkinter.CTkFrame(master=self.main_frame, width=350)
         self.left_frame.pack(side="left", fill="y", padx=10, pady=10)
         self.left_frame.pack_propagate(
             False
@@ -49,7 +82,7 @@ class BrailleReaderUI:
         self.title_label = customtkinter.CTkLabel(
             master=self.left_frame,
             text="Braille Reader & Writer",
-            font=("Helvetica", 18, "bold"),
+            font=("Helvetica", 22, "bold"),
         )
         self.title_label.pack(pady=20)
 
@@ -61,7 +94,7 @@ class BrailleReaderUI:
         self.braille_to_speech_title = customtkinter.CTkLabel(
             master=self.braille_to_speech_frame,
             text="Braille to Speech",
-            font=("Helvetica", 16, "bold"),
+            font=("Helvetica", 20, "bold"),
         )
         self.braille_to_speech_title.pack(pady=5)
         self.braille_to_speech_title.configure(text_color="orange")
@@ -71,6 +104,7 @@ class BrailleReaderUI:
         self.braille_to_speech_button = customtkinter.CTkButton(
             master=self.braille_to_speech_frame,
             text="Braille to Speech",
+            font=("Helvetica", 18),
             command=lambda: [
                 self.update_right_frame("Braille Text"),
                 self.dim_frames(
@@ -88,7 +122,7 @@ class BrailleReaderUI:
         self.speech_to_braille_title = customtkinter.CTkLabel(
             master=self.speech_to_braille_frame,
             text="Speech To Braille",
-            font=("Helvetica", 16, "bold"),
+            font=("Helvetica", 20, "bold"),
         )
         self.speech_to_braille_title.pack(pady=5)
         self.speech_to_braille_title.configure(text_color="blue")
@@ -98,6 +132,7 @@ class BrailleReaderUI:
         self.speech_to_braille_button = customtkinter.CTkButton(
             master=self.speech_to_braille_frame,
             text="Speech to Braille",
+            font=("Helvetica", 18),
             command=lambda: [
                 self.update_right_frame("Speech File"),
                 self.dim_frames(
@@ -115,7 +150,7 @@ class BrailleReaderUI:
         # Update title based on selected function
         title_text = f"Please upload your {function}"
         right_title = customtkinter.CTkLabel(
-            master=self.right_frame, text=title_text, font=("Helvetica", 18, "bold")
+            master=self.right_frame, text=title_text, font=("Helvetica", 22, "bold")
         )
         right_title.pack(pady=20, anchor="center")  # Center horizontally with padding
 
@@ -123,26 +158,52 @@ class BrailleReaderUI:
         upload_button = customtkinter.CTkButton(
             master=self.right_frame,
             text="Upload",
+            font=("Helvetica", 18),
             command=lambda: self.handle_upload(),
         )
         upload_button.pack(pady=5, anchor="center")  # Center horizontally
 
-        # Convert Button
-        convert_button = customtkinter.CTkButton(
+        # Show uploaded file name
+        self.uploaded_file_label = customtkinter.CTkLabel(
             master=self.right_frame,
-            text="Convert",
-            command=lambda: self.handle_conversion(function),
+            text="No file uploaded",
+            font=("Helvetica", 16),
         )
-        convert_button.pack(pady=5, anchor="center")  # Center horizontally
+        self.uploaded_file_label.pack(pady=5, anchor="center")
 
-    def handle_conversion(self, function_name):
-        # Placeholder for handling the conversion functionality
-        messagebox.showinfo("Info", f"Executing {function_name} conversion...")
+        # Convert Button (only for Speech to Braille)
+        if function == "Speech File":
+            convert_button = customtkinter.CTkButton(
+                master=self.right_frame,
+                text="Convert",
+                font=("Helvetica", 18),
+                command=lambda: self.speech_to_braille.handle_conversion(
+                    self.file_path, self.text_display
+                ),
+            )
+            convert_button.pack(pady=5, anchor="center")  # Center horizontally
+
+            # Text Widget to Display the Converted Content (Initially Empty)
+            self.text_display = Text(
+                self.right_frame,
+                wrap="word",
+                width=80,
+                height=25,
+                font=("Helvetica", 24),
+            )
+            self.text_display.pack(pady=20, anchor="center")
 
     def handle_upload(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
+        file_path = filedialog.askopenfilename(
+            filetypes=[("Audio files", "*.wav;*.mp3")]
+        )
         if file_path:
-            messagebox.showinfo("Info", "Upload successfully!")
+            # Store the file path
+            self.file_path = file_path
+            self.uploaded_file_label.configure(
+                text=f"Uploaded File: {file_path.split('/')[-1]}"
+            )
+            messagebox.showinfo("Info", "File uploaded successfully!")
         else:
             messagebox.showerror("Error", "No file selected")
 
