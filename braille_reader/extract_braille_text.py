@@ -90,7 +90,7 @@ def convert_dots_to_text(dot_positions):
     vertical_distances = []
     horizontal_distances = []
 
-    print("len(dot_positions)"+len(dot_positions))
+    print("len(dot_positions)" + str(len(dot_positions)))
     
     for i in range(1, len(dot_positions)):
         x1, y1, w1, h1 = dot_positions[i-1]
