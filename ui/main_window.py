@@ -1,19 +1,36 @@
+import sys
+import os
+
+# Add the project's root directory to the Python path at runtime
+# so that Python can locate the modules
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+import pygame
 import customtkinter
 from tkinter import filedialog, messagebox
 from tkinter import Text
 
-from braille_writer.braille_writer import (
-    speech_to_braille,
-)  # Import Text widget for displaying content
+from braille_writer.braille_writer import speech_to_braille
+from braille_reader.braille_reader import image_to_speech
 
 
 class BrailleToSpeech:
     def __init__(self, root):
         self.root = root
 
-    def execute(self):
-        # Placeholder for Braille to Speech functionality
-        messagebox.showinfo("Info", "Braille to Speech feature coming soon!")
+    def handle_play(self, file_path):
+        # image_to_speech(file_path)
+        # Handle playing the audio file
+        try:
+            if not pygame.mixer.get_init():
+                pygame.mixer.init()  # Reinitialize if not initialized
+            pygame.mixer.music.load(file_path)  # Load the audio file
+            pygame.mixer.music.play()  # Play the audio
+            messagebox.showinfo("Info", "Playing audio...")
+        except pygame.error as e:
+            messagebox.showerror(
+                "Error", f"An error occurred while playing the audio: {str(e)}"
+            )
 
 
 class SpeechToBraille:
@@ -22,6 +39,7 @@ class SpeechToBraille:
 
     def handle_conversion(self, file_path, text_display):
         # Call the speech_to_braille function and update the text display
+        speech_to_braille(file_path)
         output_braille = "output/english_to_braille_text.txt"
         output_english = "output/speech_to_english.txt"
 
@@ -192,10 +210,18 @@ class BrailleReaderUI:
                 font=("Helvetica", 24),
             )
             self.text_display.pack(pady=20, anchor="center")
+        else:
+            play_button = customtkinter.CTkButton(
+                master=self.right_frame,
+                text="Convert and Play",
+                font=("Helvetica", 18),
+                command=lambda: self.braille_to_speech.handle_play(self.file_path),
+            )
+            play_button.pack(pady=5, anchor="center")  # Center horizontally
 
     def handle_upload(self):
         file_path = filedialog.askopenfilename(
-            filetypes=[("Audio files", "*.wav;*.mp3")]
+            filetypes=[("Audio files", "*.wav;*.mp3;*.jpeg")]
         )
         if file_path:
             # Store the file path
