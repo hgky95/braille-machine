@@ -1,8 +1,8 @@
 import braille
 import speech_recognition as sr
 
-BRAILLE_TEXT_OUTPUT_PATH = "../output/english_to_braille_text.txt"
-ENGLISH_TEXT_OUTPUT_PATH = "../output/speech_to_english.txt"
+BRAILLE_TEXT_OUTPUT_PATH = "output/english_to_braille_text.txt"
+ENGLISH_TEXT_OUTPUT_PATH = "output/speech_to_english.txt"
 
 def speech_to_braille(audio_path):
     """
@@ -33,7 +33,7 @@ def speech_to_text(audio_path):
         audio = recognizer.record(source)
         try:
             text_output = recognizer.recognize_google(audio)
-            with open(text_file, "w") as file:
+            with open(text_file, "w", encoding="utf-8") as file:
                 # Save the transcribed text to a .txt file
                 file.write(text_output)
             print("Transcription successful. Check speech.txt for the text.")
@@ -56,7 +56,7 @@ def read_text_file(file_path):
             str: a content from this file
     """
     try:
-        with open(file_path, 'r') as file:
+        with open(file_path, 'r', encoding="utf-8") as file:
             content = file.read()
             return content
     except FileNotFoundError:
@@ -75,7 +75,7 @@ def write_to_file(content, filename = BRAILLE_TEXT_OUTPUT_PATH):
             filename: output file name
     """
     try:
-        with open(filename, 'w') as file:
+        with open(filename, 'w', encoding="utf-8") as file:
             file.write(content)
         print(f"Content successfully written to {filename}")
     except IOError:
@@ -94,9 +94,3 @@ def text_to_braille(file_path: str):
     braille_text = braille.textToBraille(content)
     write_to_file(braille_text, BRAILLE_TEXT_OUTPUT_PATH)
     return braille_text
-
-
-if __name__ == '__main__':
-    input_audio = "../test_speech.wav"
-    english_text_path = speech_to_text(input_audio)
-    text_to_braille(english_text_path)
