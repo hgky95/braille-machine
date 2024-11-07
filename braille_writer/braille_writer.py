@@ -21,12 +21,13 @@ def speech_to_text(audio_path):
     """
         Converting speech to English text
         :param
-            audio_path: audio file path (e.g: mp3)
+            audio_path: audio file path (e.g: wav)
         :return
             str: a .txt file with English text
     """
     recognizer = sr.Recognizer()
     text_file = ENGLISH_TEXT_OUTPUT_PATH
+
     # Handle the audio recording and convert it into text.
     with sr.AudioFile(audio_path) as source:
         audio = recognizer.record(source)
@@ -83,7 +84,7 @@ def write_to_file(content, filename = BRAILLE_TEXT_OUTPUT_PATH):
 
 def text_to_braille(file_path: str):
     """
-        Convert English texts to braille format
+        Convert English texts from a .txt file to braille text and store it in .txt file
         :param
             file_path: a .txt file with English texts
         :return:
