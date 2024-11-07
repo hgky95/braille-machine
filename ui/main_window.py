@@ -12,6 +12,8 @@ from tkinter import Text
 
 from braille_writer.braille_writer import speech_to_braille
 from braille_reader.braille_reader import image_to_speech
+import warnings
+warnings.filterwarnings('ignore')
 
 
 class BrailleToSpeech:
@@ -19,12 +21,12 @@ class BrailleToSpeech:
         self.root = root
 
     def handle_play(self, file_path):
-        # image_to_speech(file_path)
+        audio_path = image_to_speech(file_path)
         # Handle playing the audio file
         try:
             if not pygame.mixer.get_init():
                 pygame.mixer.init()  # Reinitialize if not initialized
-            pygame.mixer.music.load(file_path)  # Load the audio file
+            pygame.mixer.music.load(audio_path)  # Load the audio file
             pygame.mixer.music.play()  # Play the audio
             messagebox.showinfo("Info", "Playing audio...")
         except pygame.error as e:

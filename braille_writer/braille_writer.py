@@ -4,6 +4,7 @@ import speech_recognition as sr
 BRAILLE_TEXT_OUTPUT_PATH = "output/english_to_braille_text.txt"
 ENGLISH_TEXT_OUTPUT_PATH = "output/speech_to_english.txt"
 
+
 def speech_to_braille(audio_path):
     """
         Convert the audio to braille format
@@ -26,17 +27,14 @@ def speech_to_text(audio_path):
             str: a .txt file with English text
     """
     recognizer = sr.Recognizer()
-    text_file = ENGLISH_TEXT_OUTPUT_PATH
+    output_path = ENGLISH_TEXT_OUTPUT_PATH
 
     # Handle the audio recording and convert it into text.
     with sr.AudioFile(audio_path) as source:
         audio = recognizer.record(source)
         try:
             text_output = recognizer.recognize_google(audio)
-            with open(text_file, "w", encoding="utf-8") as file:
-                # Save the transcribed text to a .txt file
-                file.write(text_output)
-            print("Transcription successful. Check speech.txt for the text.")
+            write_to_file(text_output, output_path)
         # Error Handling - 1
         except sr.UnknownValueError:
             print("Not able to identify audio.")
@@ -44,7 +42,7 @@ def speech_to_text(audio_path):
         except sr.RequestError:
             print("Speech recognition service error")
 
-    return text_file
+    return output_path
 
 
 def read_text_file(file_path):
@@ -67,7 +65,7 @@ def read_text_file(file_path):
         return None
 
 
-def write_to_file(content, filename = BRAILLE_TEXT_OUTPUT_PATH):
+def write_to_file(content, filename=BRAILLE_TEXT_OUTPUT_PATH):
     """
         Write content to file
         :param
