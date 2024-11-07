@@ -221,7 +221,7 @@ class BrailleReaderUI:
 
     def handle_upload(self):
         file_path = filedialog.askopenfilename(
-            filetypes=[("Audio files", "*.wav;*.mp3;*.jpeg")]
+            filetypes=[("Audio/Image allowed files", "*.wav *.jpeg *.png *.jpg")]
         )
         if file_path:
             # Store the file path
@@ -265,8 +265,3 @@ class BrailleReaderUI:
                             text_color="white", fg_color="gray"
                         )  # Further dimmed button color
 
-
-if __name__ == "__main__":
-    root = customtkinter.CTk()
-    ui = BrailleReaderUI(root)
-    root.mainloop()
