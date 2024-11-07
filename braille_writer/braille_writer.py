@@ -1,16 +1,17 @@
 import braille
 import speech_recognition as sr
 
-BRAILLE_TEXT_OUTPUT_PATH = "../output/english_to_braille_text.txt"
-ENGLISH_TEXT_OUTPUT_PATH = "../output/speech_to_english.txt"
+BRAILLE_TEXT_OUTPUT_PATH = "output/english_to_braille_text.txt"
+ENGLISH_TEXT_OUTPUT_PATH = "output/speech_to_english.txt"
+
 
 def speech_to_braille(audio_path):
     """
-        Convert the audio to braille format
-        :param
-            audio_path: audio file path (e.g: mp3 file)
-        :return
-             str: a .txt file with braille text
+    Convert the audio to braille format
+    :param
+        audio_path: audio file path (e.g: mp3 file)
+    :return
+         str: a .txt file with braille text
     """
     text_file = speech_to_text(audio_path)
     text_to_braille(text_file)
@@ -19,11 +20,11 @@ def speech_to_braille(audio_path):
 
 def speech_to_text(audio_path):
     """
-        Converting speech to English text
-        :param
-            audio_path: audio file path (e.g: mp3)
-        :return
-            str: a .txt file with English text
+    Converting speech to English text
+    :param
+        audio_path: audio file path (e.g: mp3)
+    :return
+        str: a .txt file with English text
     """
     recognizer = sr.Recognizer()
     text_file = ENGLISH_TEXT_OUTPUT_PATH
@@ -32,7 +33,7 @@ def speech_to_text(audio_path):
         audio = recognizer.record(source)
         try:
             text_output = recognizer.recognize_google(audio)
-            with open(text_file, "w") as file:
+            with open(text_file, "w", encoding="utf-8") as file:
                 # Save the transcribed text to a .txt file
                 file.write(text_output)
             print("Transcription successful. Check speech.txt for the text.")
@@ -48,14 +49,14 @@ def speech_to_text(audio_path):
 
 def read_text_file(file_path):
     """
-        Read text from file path
-        :param
-            file_path: text file path
-        :return
-            str: a content from this file
+    Read text from file path
+    :param
+        file_path: text file path
+    :return
+        str: a content from this file
     """
     try:
-        with open(file_path, 'r') as file:
+        with open(file_path, "r", encoding="utf-8") as file:
             content = file.read()
             return content
     except FileNotFoundError:
@@ -66,15 +67,15 @@ def read_text_file(file_path):
         return None
 
 
-def write_to_file(content, filename = BRAILLE_TEXT_OUTPUT_PATH):
+def write_to_file(content, filename=BRAILLE_TEXT_OUTPUT_PATH):
     """
-        Write content to file
-        :param
-            content: text content
-            filename: output file name
+    Write content to file
+    :param
+        content: text content
+        filename: output file name
     """
     try:
-        with open(filename, 'w') as file:
+        with open(filename, "w", encoding="utf-8") as file:
             file.write(content)
         print(f"Content successfully written to {filename}")
     except IOError:
@@ -83,11 +84,11 @@ def write_to_file(content, filename = BRAILLE_TEXT_OUTPUT_PATH):
 
 def text_to_braille(file_path: str):
     """
-        Convert English texts to braille format
-        :param
-            file_path: a .txt file with English texts
-        :return:
-            str: a .txt file with braille text
+    Convert English texts to braille format
+    :param
+        file_path: a .txt file with English texts
+    :return:
+        str: a .txt file with braille text
     """
     content = read_text_file(file_path)
     braille_text = braille.textToBraille(content)
@@ -95,7 +96,7 @@ def text_to_braille(file_path: str):
     return braille_text
 
 
-if __name__ == '__main__':
-    input_audio = "../test_speech.wav"
-    english_text_path = speech_to_text(input_audio)
-    text_to_braille(english_text_path)
+# if __name__ == '__main__':
+#     input_audio = "../test_speech.wav"
+#     english_text_path = speech_to_text(input_audio)
+#     text_to_braille(english_text_path)
