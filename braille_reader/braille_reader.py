@@ -53,16 +53,36 @@ braille_to_english = {
 
 
 # Testing:
+# Specify the path to your text file to be converted into speech
+file_path = "../input/a.txt"
+
+# Read the file into a single string
+with open(file_path, 'r', encoding='utf-8') as file:
+    text = file.read()
+
+print("Input Text for Speech conversion" + text)
+text_to_speech(text)
+
 image_path = "../images/Braille_P.jpg"
 braille_text = "⠓⠑⠇⠇⠕"
-braille_to_eng_translated_text = braille_to_text(braille_text)
-english_text_from_img = image_to_braille_text_conversion(image_path)
-english_text_ext = "Hello There!"
-
 print("Braille:", braille_text)
+braille_to_eng_translated_text = braille_to_text(braille_text)
 print("Braille text Translated to English:", braille_to_eng_translated_text)
 
-image_to_speech(braille_to_eng_translated_text)
+# Specify the path to your text file
+file_path = '../output/Braille_to_txt_output.txt'
+
+# Write the text to the file
+with open(file_path, 'w', encoding='utf-8') as file:
+    file.write(braille_to_eng_translated_text)
+
+print("Text has been saved to", file_path)
+
+english_text_from_img = image_to_braille_text_conversion(image_path)
+print("Braille image to English converted Text: " + english_text_from_img)
+
+
+
 
 
 
