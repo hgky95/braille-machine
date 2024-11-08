@@ -7,15 +7,12 @@ ENGLISH_TEXT_OUTPUT_PATH = "output/speech_to_english.txt"
 
 def speech_to_braille(audio_path):
     """
-        Convert the audio to braille format
+        Convert the audio (speech) to braille text and store in the .txt file
         :param
             audio_path: audio file path (e.g: mp3 file)
-        :return
-             str: a .txt file with braille text
     """
     text_file = speech_to_text(audio_path)
     text_to_braille(text_file)
-    return
 
 
 def speech_to_text(audio_path):
@@ -24,7 +21,7 @@ def speech_to_text(audio_path):
         :param
             audio_path: audio file path (e.g: wav)
         :return
-            str: a .txt file with English text
+            str: a .txt file path with English text
     """
     recognizer = sr.Recognizer()
     output_path = ENGLISH_TEXT_OUTPUT_PATH
@@ -43,6 +40,20 @@ def speech_to_text(audio_path):
             print("Speech recognition service error")
 
     return output_path
+
+
+def text_to_braille(file_path: str):
+    """
+        Convert English texts from a .txt file to braille text and store it in .txt file
+        :param
+            file_path: a .txt file with English texts
+        :return:
+            str: a .txt file path with braille text
+    """
+    content = read_text_file(file_path)
+    braille_text = braille.textToBraille(content)
+    write_to_file(braille_text, BRAILLE_TEXT_OUTPUT_PATH)
+    return BRAILLE_TEXT_OUTPUT_PATH
 
 
 def read_text_file(file_path):
@@ -78,17 +89,3 @@ def write_to_file(content, filename=BRAILLE_TEXT_OUTPUT_PATH):
         print(f"Content successfully written to {filename}")
     except IOError:
         print(f"An error occurred while writing to {filename}")
-
-
-def text_to_braille(file_path: str):
-    """
-        Convert English texts from a .txt file to braille text and store it in .txt file
-        :param
-            file_path: a .txt file with English texts
-        :return:
-            str: a .txt file with braille text
-    """
-    content = read_text_file(file_path)
-    braille_text = braille.textToBraille(content)
-    write_to_file(braille_text, BRAILLE_TEXT_OUTPUT_PATH)
-    return braille_text
