@@ -1,5 +1,5 @@
 # braille-machine
-This is an academic project that implements a system to convert Braille images to speech directly and speech to Braille text.
+This academic project implements an application to convert Braille images to speech and Speech to Braille text.
 
 ## Installation
 1. Clone the GitHub repository:
@@ -20,9 +20,9 @@ python -m venv .venv
 .venv/Scripts/activate
 ```
 
-- On Mac:
+- On Unix/Mac:
 ```
-On Unix or MacOS: source .venv/bin/activate
+source .venv/bin/activate
 ```
 
 4. Install library dependencies:
@@ -38,3 +38,8 @@ python main.py
 ## Acknowledgement
 This project is developed based on the [Braille from AaditT](https://github.com/AaditT/braille) 
 and [Braille from MarynaLongnickel](https://github.com/MarynaLongnickel/Braille) with some customization to fit with the scope of the project.
+
+## Identified issues on Braille Image to Braille Text:
+- Requires precise dimensions and alignment in input images for accurate translation.
+- Adjustments to tolerance levels and image size may be necessary, depending on image
+resolution and braille dot size.
