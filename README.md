@@ -35,6 +35,9 @@ pip install -r requirements.txt
 python main.py
 ```
 
+![Speech-To-Braille](https://github.com/user-attachments/assets/9c9a36ec-ae44-4de3-90df-444df7d38084)
+
+
 ## Acknowledgement
 This project is developed based on the [Braille from AaditT](https://github.com/AaditT/braille) 
 and [Braille from MarynaLongnickel](https://github.com/MarynaLongnickel/Braille) with some customization to fit with the scope of the project.
